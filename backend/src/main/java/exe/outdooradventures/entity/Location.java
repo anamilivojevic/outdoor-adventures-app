@@ -21,13 +21,13 @@ public class Location implements IHasGetId {
     private int id;
 
     private String city;
-    private String streetName;
-    private int streetNumber;
-    private int phoneNumber;
+    private String address;
 
+    @Column(precision = 8, scale = 6)
     @NotNull
     private BigDecimal latitude;
 
+    @Column(precision = 8, scale = 6)
     @NotNull
     private BigDecimal longitude;
 

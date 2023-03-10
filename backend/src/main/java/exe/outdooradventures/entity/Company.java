@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.URL;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,6 +22,8 @@ public class Company implements IHasGetId {
 
     @NotBlank
     private String name;
+
+    @URL
     private String websiteLink;
 
     // FetchType.EAGER because when the company is loaded, we want to immediately display
@@ -38,6 +41,5 @@ public class Company implements IHasGetId {
     public void removeLocation(Location loc) {
         this.locations.remove(loc);
     }
-
 
 }

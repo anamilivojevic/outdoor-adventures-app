@@ -22,8 +22,13 @@ public class Activity implements IHasGetId {
 
     @NotBlank
     private String name;
+
+    @Lob
+    @Column(length=500)
     private String description;
 
+    @NotBlank
+    private String imgPath;
     @ManyToMany
     @JoinTable(name = "activity_location", joinColumns = {@JoinColumn(name = "activity_id")},
             inverseJoinColumns = {@JoinColumn(name = "location_id")})
@@ -59,7 +64,6 @@ public class Activity implements IHasGetId {
         loc.getActivities().remove(this);
 
     }
-
 
 
 }
