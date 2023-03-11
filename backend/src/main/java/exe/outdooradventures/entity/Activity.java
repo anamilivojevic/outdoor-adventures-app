@@ -35,8 +35,8 @@ public class Activity implements IHasGetId {
     private Set<Location> locations = new HashSet<>();
 
     @ManyToMany
-    @JoinTable(name = "activity_tag", joinColumns = {@JoinColumn(name = "tag_id")},
-            inverseJoinColumns = {@JoinColumn(name = "activity_id")})
+    @JoinTable(name = "activity_tag", joinColumns = {@JoinColumn(name = "activity_id")},
+            inverseJoinColumns = {@JoinColumn(name = "tag_id")})
     private Set<Tag> tags = new HashSet<>();
 
     @ManyToMany(mappedBy = "favActivities")

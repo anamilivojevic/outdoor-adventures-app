@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "location")
+@Table(name = "locations")
 @Getter @Setter @NoArgsConstructor
 public class Location implements IHasGetId {
 
