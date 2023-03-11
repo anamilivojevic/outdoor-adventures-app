@@ -1,0 +1,15 @@
+create table activities (id integer not null auto_increment, description text, img_path varchar(255), name varchar(255), primary key (id)) engine=InnoDB;
+create table activity_location (activity_id integer not null, location_id integer not null, primary key (activity_id, location_id)) engine=InnoDB;
+create table activity_tag (activity_id integer not null, tag_id integer not null, primary key (activity_id, tag_id)) engine=InnoDB;
+create table companies (id integer not null auto_increment, name varchar(255), website_link varchar(255), primary key (id)) engine=InnoDB;
+create table locations (id integer not null auto_increment, address varchar(255), city varchar(255), latitude decimal(8,6) not null, longitude decimal(8,6) not null, company_id integer, primary key (id)) engine=InnoDB;
+create table tags (id integer not null auto_increment, color varchar(7), name varchar(255), primary key (id)) engine=InnoDB;
+create table user_fav_activities (user_id integer not null, activity_id integer not null, primary key (user_id, activity_id)) engine=InnoDB;
+create table users (id integer not null auto_increment, admin bit not null, city varchar(255), country varchar(255), date_of_birth date, email varchar(255), first_name varchar(255), last_name varchar(255), password varchar(255), primary key (id)) engine=InnoDB;
+alter table activity_location add constraint FKiytt02j5fr2m28ja3g1xfpl8o foreign key (location_id) references locations (id);
+alter table activity_location add constraint FKmsyhky43dmn75vw6pri5ypvod foreign key (activity_id) references activities (id);
+alter table activity_tag add constraint FKrc8mr1j33kk1e11y82u67cnky foreign key (tag_id) references tags (id);
+alter table activity_tag add constraint FKp4y9cne8dkqadf5i9b6obk0b3 foreign key (activity_id) references activities (id);
+alter table locations add constraint FKbiaa8rb5x5a3o7ri73q0b5og7 foreign key (company_id) references companies (id);
+alter table user_fav_activities add constraint FKagl8qkd3xdvwj24pywl4ey326 foreign key (activity_id) references activities (id);
+alter table user_fav_activities add constraint FKlucx9ffsajtkcw5dq6vv7opq8 foreign key (user_id) references users (id);

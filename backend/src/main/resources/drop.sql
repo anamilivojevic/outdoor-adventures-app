@@ -1,0 +1,15 @@
+alter table activity_location drop foreign key FKiytt02j5fr2m28ja3g1xfpl8o;
+alter table activity_location drop foreign key FKmsyhky43dmn75vw6pri5ypvod;
+alter table activity_tag drop foreign key FKrc8mr1j33kk1e11y82u67cnky;
+alter table activity_tag drop foreign key FKp4y9cne8dkqadf5i9b6obk0b3;
+alter table locations drop foreign key FKbiaa8rb5x5a3o7ri73q0b5og7;
+alter table user_fav_activities drop foreign key FKagl8qkd3xdvwj24pywl4ey326;
+alter table user_fav_activities drop foreign key FKlucx9ffsajtkcw5dq6vv7opq8;
+drop table if exists activities;
+drop table if exists activity_location;
+drop table if exists activity_tag;
+drop table if exists companies;
+drop table if exists locations;
+drop table if exists tags;
+drop table if exists user_fav_activities;
+drop table if exists users;
