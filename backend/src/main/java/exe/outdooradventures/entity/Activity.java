@@ -28,7 +28,7 @@ public class Activity implements IHasGetId {
     private String description;
 
     @NotBlank
-    private String imgPath;
+    private String imgFileName;
     @ManyToMany
     @JoinTable(name = "activity_location", joinColumns = {@JoinColumn(name = "activity_id")},
             inverseJoinColumns = {@JoinColumn(name = "location_id")})
@@ -47,6 +47,7 @@ public class Activity implements IHasGetId {
         this.tags.add(tag);
         tag.getActivities().add(this);
     }
+
 
     public void removeTag(Tag tag) {
         this.tags.remove(tag);

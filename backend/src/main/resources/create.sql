@@ -1,4 +1,4 @@
-create table activities (id integer not null auto_increment, description text, img_path varchar(255), name varchar(255), primary key (id)) engine=InnoDB;
+create table activities (id integer not null auto_increment, description text, img_file_name varchar(255), name varchar(255), primary key (id)) engine=InnoDB;
 create table activity_location (activity_id integer not null, location_id integer not null, primary key (activity_id, location_id)) engine=InnoDB;
 create table activity_tag (activity_id integer not null, tag_id integer not null, primary key (activity_id, tag_id)) engine=InnoDB;
 create table companies (id integer not null auto_increment, name varchar(255), website_link varchar(255), primary key (id)) engine=InnoDB;
