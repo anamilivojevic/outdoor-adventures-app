@@ -2,6 +2,30 @@ interface Obj {
   id: number;
 }
 
+interface ActivityProps {
+  activity: Activity;
+}
+
+interface ActivitiesProps {
+  activities: Activity[];
+}
+
+interface TagProps {
+  tag: Tag;
+}
+
+interface LocationProps {
+  Location: Location;
+}
+
+interface CompanyProps {
+  company: Company;
+}
+
+interface UserProps {
+  user: User;
+}
+
 interface Activity extends Obj {
   name: string;
   description: string;

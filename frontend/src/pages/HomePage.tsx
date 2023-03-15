@@ -1,7 +1,10 @@
 import "./HomePage.scss";
-import ActivityCarousel from "../components/ActivityCarousel";
+import ActivitySwiper from "../components/ActivitySwiper";
+import { MdKeyboardDoubleArrowRight } from "react-icons/md";
+import { FiLogIn } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
-const HomePage = (): JSX.Element => {
+const HomePage = ({ activities }: ActivitiesProps): JSX.Element => {
   return (
     <>
       <header>
@@ -9,17 +12,17 @@ const HomePage = (): JSX.Element => {
           className="container-fluid d-flex bg-light bg-opacity-50"
           id="banner">
           <div className="container d-flex justify-content-center align-items-center">
-            <h1 className="text-uppercase fw-normal text-center c-text-dark-green">
+            <h1 className="text-uppercase text-center c-text-dark-green">
               Your next outdoor activity!
             </h1>
           </div>
         </div>
       </header>
       <main>
-        <section id="description" className="my-4 my-xl-5">
-          <div className="container px-lg-5">
-            <div className="mb-4 py-3 px-lg-5">
-              <div className="px-lg-5">
+        <div className="container">
+          <section id="description" className="mt-4 c-large-mb">
+            <div className="row justify-content-center">
+              <div className="col-12 col-md-10 col-lg-8 col-xl-6">
                 <h3 className="c-text-dark-green">
                   Explore our top ideas for all the outdoorsy people who are
                   craving adventures.
@@ -34,11 +37,32 @@ const HomePage = (): JSX.Element => {
                 </p>
               </div>
             </div>
-          </div>
-        </section>
-        <section id="suggested">
-          <ActivityCarousel />
-        </section>
+          </section>
+          <section id="suggested" className="c-large-mb">
+            <h4 className="text-uppercase text-center mb-3">
+              Popular activities
+            </h4>
+            <div className="d-flex justify-content-center">
+              <ActivitySwiper activities={activities} />
+            </div>
+          </section>
+          <section id="explore-suggestions" className="c-large-mb">
+            <div className="text-center ">
+              <Link to="/search" className="fs-4">
+                Search activities on a map
+                <MdKeyboardDoubleArrowRight className="ms-2" />
+              </Link>
+            </div>
+          </section>
+          <section id="home-login" className="c-large-mb">
+            <div className="text-center ">
+              <Link to="/login" className="fs-4">
+                Log in or create an account
+                <FiLogIn className="ms-2" />
+              </Link>
+            </div>
+          </section>
+        </div>
       </main>
     </>
   );

@@ -56,10 +56,15 @@ a:hover {
   color: inherit;
 }
 
+.c-large-mb {
+  margin-bottom: 3rem;
+}
+
 // navbar
 
 .navbar {
-  opacity: 0.95;
+  background-color: $darkerGreen;
+  opacity: 0.93;
 }
 
 #logo {

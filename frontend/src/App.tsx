@@ -1,36 +1,36 @@
 import { Route, Routes } from "react-router-dom";
+import { useState, useEffect } from "react";
 import "./App.scss";
 import HomePage from "./pages/HomePage";
 import SearchPage from "./pages/SearchPage";
 import MainLayout from "./components/MainLayout";
+import Test from "./components/Test";
 
 import { getActivities, getTags, getLocations, getUsers } from "./api";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
-  async function getAct() {
-    console.log(await getActivities());
-    console.log(await getActivities(1));
+  const [activities, setActivities] = useState<Activity[]>([] as Activity[]);
 
-    console.log(await getTags());
-    console.log(await getTags(1));
-
-    console.log(await getLocations());
-    console.log(await getLocations(1));
-
-    console.log(await getUsers());
-    console.log(await getUsers(1));
+  async function loadActivities() {
+    setActivities(await getActivities());
   }
 
-  getAct();
+  useEffect(() => {
+    loadActivities();
+  }, []);
 
   return (
     <>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route path="" element={<HomePage />} />
-          <Route path="search" element={<SearchPage />} />
+          <Route path="" element={<HomePage activities={activities} />} />
+          <Route
+            path="search"
+            element={<SearchPage activities={activities} />}
+          />
 
-          <Route path="login" />
+          <Route path="login" element={<LoginPage />} />
           <Route path="profile" />
           <Route path="edit-user/:userId" />
           <Route path=":userId/tasks" />

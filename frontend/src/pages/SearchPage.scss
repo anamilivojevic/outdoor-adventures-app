@@ -1,0 +1,13 @@
+$borderColor: rgb(182, 182, 182);
+$actBtnColor: rgb(220, 220, 220);
+
+#filters button {
+  border: 0.8px solid $borderColor;
+  border-radius: 3px;
+  padding: 0.2rem 0.4rem;
+  margin-right: 0.5rem;
+}
+
+#act-filter-btns button {
+  background-color: $actBtnColor;
+}

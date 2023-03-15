@@ -1,5 +1,4 @@
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const MainLayout = (): JSX.Element => {
   return (

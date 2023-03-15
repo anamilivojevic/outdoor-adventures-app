@@ -4,12 +4,14 @@ const TAGS_URL: string = "http://localhost:8080/api/v1/tags";
 const COMPANIES_URL: string = "http://localhost:8080/api/v1/companies";
 const USERS_URL: string = "http://localhost:8080/api/v1/users";
 
-// Generic API functions
+// General API functions
 async function get(url: string, id?: number) {
   try {
     const path: string = id ? `/${id}` : "";
     const response = await fetch(url + path);
-    return { ok: response.ok, data: await response.json() };
+    if (response.ok) {
+      return await response.json();
+    }
   } catch (error) {
     console.log(error);
   }
@@ -24,7 +26,9 @@ export async function post(url: string, object: Obj) {
       },
       body: JSON.stringify(object),
     });
-    return { ok: response.ok, data: await response.json() };
+    if (response.ok) {
+      return await response.json();
+    }
   } catch (error) {
     return { ok: false, data: error };
   }
@@ -39,7 +43,9 @@ async function put(url: string, id: number, object: Obj) {
       },
       body: JSON.stringify(object),
     });
-    return { ok: response.ok, data: await response.json() };
+    if (response.ok) {
+      return await response.json();
+    }
   } catch (error) {
     return { ok: false, data: error };
   }
@@ -53,7 +59,7 @@ export async function deleteById(url: string, id: number) {
     if (response.ok) {
       return "Success";
     } else {
-      return { ok: false, data: await response.json() };
+      return await response.json();
     }
   } catch (error) {
     return { ok: false, data: error };
