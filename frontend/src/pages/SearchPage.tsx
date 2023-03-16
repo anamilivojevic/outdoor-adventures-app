@@ -1,7 +1,6 @@
 import { getTags, getLocations } from "../api";
 import { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import { BiSearch } from "react-icons/bi";
 import Map from "../components/Map";
@@ -53,9 +52,11 @@ const SearchPage = ({ activities }: ActivitiesProps): JSX.Element => {
                   value={searchString}
                   onChange={(e) => setSearchString(e.target.value)}
                 />
-                <Button variant="info" type="submit">
+                <button
+                  className="btn btn-dark-green c-green-hover"
+                  type="submit">
                   <BiSearch />
-                </Button>
+                </button>
               </InputGroup>
             </Form>
           </div>
@@ -98,8 +99,8 @@ const SearchPage = ({ activities }: ActivitiesProps): JSX.Element => {
           </div>
         </div>
         <div className="map-container">
-          <h3>{searchString ? `Results for ${searchString}:` : ""}</h3>
-          <Map />
+          <h3>{searchString ? `Results for "${searchString}":` : ""}</h3>
+          <Map locations={[]} />
         </div>
       </div>
     </main>

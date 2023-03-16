@@ -14,22 +14,37 @@ interface TagProps {
   tag: Tag;
 }
 
+interface TagsProps {
+  tags: Tag[];
+}
+
 interface LocationProps {
-  Location: Location;
+  location: Location;
+}
+
+interface LocationsProps {
+  locations: Location[];
 }
 
 interface CompanyProps {
   company: Company;
+}
+interface CompaniesProps {
+  companies: Company[];
 }
 
 interface UserProps {
   user: User;
 }
 
+interface UsersProps {
+  users: User[];
+}
+
 interface Activity extends Obj {
   name: string;
   description: string;
-  imgPath: string;
+  imgFileName: string;
   locations: Set<Location>;
   tags: Set<Tag>;
   usersFavorite: Set<User>;

@@ -1,5 +1,6 @@
 $darkerGreen: rgb(45, 54, 44);
 $darkGreen: rgb(53, 66, 52);
+$btnDarkGreen: rgb(76, 94, 74);
 $lightGreen: rgb(204, 229, 200);
 $lightGreenHover: rgb(150, 210, 150);
 $wine: rgb(85, 12, 12);
@@ -22,8 +23,13 @@ body {
   color: $darkGreen;
 }
 
-.c-bg-dark-green {
+.c-bg-dark-green,
+.btn-dark-green:hover {
   background-color: $darkGreen;
+}
+
+.btn-dark-green {
+  background-color: $btnDarkGreen;
 }
 
 .c-green-hover:hover {

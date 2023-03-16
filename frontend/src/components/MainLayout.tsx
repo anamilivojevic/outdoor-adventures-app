@@ -9,7 +9,7 @@ const MainLayout = (): JSX.Element => {
             <div className="col-5 p-1 p-lg-2">
               <img
                 id="logo"
-                src={require("../resources/images/logo.png")}
+                src={require("../resources/icons/logo.png")}
                 alt="Website logo"
               />
             </div>
