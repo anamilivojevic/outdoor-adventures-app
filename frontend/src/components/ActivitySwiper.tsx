@@ -1,6 +1,5 @@
 import ActivitySwiperItem from "./ActivitySwiperItem";
 import "./ActivitySwiper.scss";
-import { Carousel } from "react-bootstrap";
 
 const ActivitySwiper = ({ activities }: ActivitiesProps): JSX.Element => {
   return (

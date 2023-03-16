@@ -1,11 +1,11 @@
-import { MdKeyboardDoubleArrowRight } from "react-icons/md";
-
+/* import { MdKeyboardDoubleArrowRight } from "react-icons/md";
+<MdKeyboardDoubleArrowRight className="ms-1" />; */
 const ActivitySwiperItem = ({ activity }: ActivityProps): JSX.Element => {
   return (
     <>
       <div className="card-img-wrapper">
         <img
-          src={require(`../resources/images/${activity.imgPath}`)}
+          src={require(`../resources/images/${activity.imgFileName}`)}
           alt={`Image of ${activity.name}`}
           className="card-img-top"
         />
@@ -21,7 +21,6 @@ const ActivitySwiperItem = ({ activity }: ActivityProps): JSX.Element => {
               className="text-uppercase text-decoration-none c-text-wine fs-6 d-flex align-items-center"
               href="#">
               Locations
-              <MdKeyboardDoubleArrowRight className="ms-1" />
             </a>
           </p>
         </div>
