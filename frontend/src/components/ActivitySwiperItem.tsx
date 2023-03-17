@@ -1,5 +1,5 @@
-/* import { MdKeyboardDoubleArrowRight } from "react-icons/md";
-<MdKeyboardDoubleArrowRight className="ms-1" />; */
+import { MdKeyboardDoubleArrowRight } from "react-icons/md";
+
 const ActivitySwiperItem = ({ activity }: ActivityProps): JSX.Element => {
   return (
     <>
@@ -21,6 +21,7 @@ const ActivitySwiperItem = ({ activity }: ActivityProps): JSX.Element => {
               className="text-uppercase text-decoration-none c-text-wine fs-6 d-flex align-items-center"
               href="#">
               Locations
+              <MdKeyboardDoubleArrowRight className="ms-1" />
             </a>
           </p>
         </div>

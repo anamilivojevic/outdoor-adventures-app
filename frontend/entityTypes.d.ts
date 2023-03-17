@@ -1,3 +1,27 @@
+type addActClickProps = {
+  onAdd: (obj: Activity) => void;
+};
+
+type updateActClickProps = {
+  onUpdate: (arg: number, obj: Activity) => void;
+};
+
+type deleteActClickProps = {
+  onDelete: (arg: number) => void;
+};
+
+type addTagClickProps = {
+  onAdd: (obj: Activity) => void;
+};
+
+type updateTagClickProps = {
+  onUpdate: (arg: number, obj: Activity) => void;
+};
+
+type deleteTagClickProps = {
+  onDelete: (arg: number) => void;
+};
+
 interface Obj {
   id: number;
 }
@@ -45,15 +69,15 @@ interface Activity extends Obj {
   name: string;
   description: string;
   imgFileName: string;
-  locations: Set<Location>;
-  tags: Set<Tag>;
-  usersFavorite: Set<User>;
+  locations: Location[];
+  tags: Tag[];
+  usersFavorite: User[];
 }
 
 interface Tag extends Obj {
   name: string;
   color: string;
-  activities: Set<Activity>;
+  activities: Activity[];
 }
 
 interface Location extends Obj {
@@ -62,13 +86,13 @@ interface Location extends Obj {
   latitude: number;
   longitude: number;
   company: Company;
-  activities: Set<Activity>;
+  activities: Activity[];
 }
 
 interface Company extends Obj {
   name: string;
   websiteLink: string;
-  locations: Set<Location>;
+  locations: Location[];
 }
 
 interface User extends Obj {
@@ -80,12 +104,5 @@ interface User extends Obj {
   country: string;
   city: string;
   admin: boolean;
-  favActivities: Set<Activity>;
+  favActivities: Activity[];
 }
-
-// configure in tsconfig.json
-//"typeRoots": ["./"]
-/* "paths" : {
-  "entityTypes": ["./entityTypes"]
-} */
-//"declaration": true,

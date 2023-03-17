@@ -1,8 +1,40 @@
-const ACTIVITIES_URL: string = "http://localhost:8080/api/v1/activities";
-const LOCATIONS_URL: string = "http://localhost:8080/api/v1/locations";
-const TAGS_URL: string = "http://localhost:8080/api/v1/tags";
-const COMPANIES_URL: string = "http://localhost:8080/api/v1/companies";
-const USERS_URL: string = "http://localhost:8080/api/v1/users";
+const BASE_URL: string = "http://localhost:8080/api/v1/";
+
+const ACTIVITIES_URL: string = BASE_URL + "activities";
+const LOCATIONS_URL: string = BASE_URL + "locations";
+const TAGS_URL: string = BASE_URL + "tags";
+const COMPANIES_URL: string = BASE_URL + "companies";
+const USERS_URL: string = BASE_URL + "users";
+
+async function getFromSearch(
+  url: string,
+  keyword?: string,
+  tags?: number[],
+  activities?: number[]
+) {
+  try {
+    let separator: string = "?";
+    let path: string = "";
+
+    const addPiece = (name?: string, value?: string): void => {
+      path += separator + name + "=" + value;
+      separator = "&";
+    };
+
+    keyword && addPiece("keyword", keyword);
+    tags && addPiece("tags", tags?.join());
+    activities && addPiece("activities", activities?.join());
+
+    console.log(path);
+
+    const response = await fetch(url + path);
+    if (response.ok) {
+      console.log(await response.json());
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 // General API functions
 async function get(url: string, id?: number) {
@@ -17,8 +49,12 @@ async function get(url: string, id?: number) {
   }
 }
 
-export async function post(url: string, object: Obj) {
+export async function post(
+  url: string,
+  object: Activity | Tag | Location | Company | User
+) {
   try {
+    console.log(JSON.stringify(object));
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -34,7 +70,11 @@ export async function post(url: string, object: Obj) {
   }
 }
 
-async function put(url: string, id: number, object: Obj) {
+async function put(
+  url: string,
+  id: number,
+  object: Activity | Tag | Location | Company | User
+) {
   try {
     const response = await fetch(`${url}/${id}`, {
       method: "PUT",
@@ -80,6 +120,12 @@ export async function deleteActivity(id: number) {
   return deleteById(ACTIVITIES_URL, id);
 }
 
+// TODO: finish this
+// Activity's tags:
+export async function addTagToActivity(actId: number, tagId: number) {
+  //return post(ACTIVITIES_URL, actId, tagId);
+}
+
 // Tags API
 export async function getTags(id?: number) {
   return get(TAGS_URL, id);
@@ -98,6 +144,15 @@ export async function deleteTag(id: number) {
 export async function getLocations(id?: number) {
   return get(LOCATIONS_URL, id);
 }
+
+export async function getLocationsFromSearch(
+  keyword?: string,
+  tags?: number[],
+  activities?: number[]
+) {
+  return getFromSearch(LOCATIONS_URL, keyword, tags, activities);
+}
+
 export async function postLocation(location: Location) {
   return post(LOCATIONS_URL, location);
 }

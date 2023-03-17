@@ -23,14 +23,13 @@ const Map = ({ locations }: LocationsProps): JSX.Element => {
   });
 
   const [activeMarkerId, setActiveMarkerId] = useState<number | null>(null);
-
+  const [map, setMap] = useState<google.maps.Map | null>(null);
   const handleActiveMarker = (markerId: number) => {
     if (markerId !== activeMarkerId) {
       setActiveMarkerId(markerId);
     }
   };
 
-  const [map, setMap] = useState<google.maps.Map | null>(null);
   const handleOnLoad = (map: google.maps.Map) => {
     const bounds = new google.maps.LatLngBounds(center);
     //locations.forEach(({ position }) => bounds.extend(position));
@@ -48,7 +47,7 @@ const Map = ({ locations }: LocationsProps): JSX.Element => {
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
-        zoom={8}
+        zoom={7}
         options={{
           mapTypeControl: false,
           fullscreenControl: false,
@@ -78,18 +77,6 @@ const Map = ({ locations }: LocationsProps): JSX.Element => {
             ) : null}
           </Marker>
         ))}
-        <Marker
-          position={center}
-          icon={{
-            url: require("../resources/icons/location-marker.svg").default,
-          }}
-          onClick={() => handleActiveMarker(1)}>
-          {activeMarkerId === 1 ? (
-            <InfoWindow onCloseClick={() => setActiveMarkerId(null)}>
-              <div>Babeee, let's go to bed :3</div>
-            </InfoWindow>
-          ) : null}
-        </Marker>
       </GoogleMap>
     </div>
   ) : (

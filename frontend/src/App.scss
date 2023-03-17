@@ -19,10 +19,13 @@ body {
 }
 
 // colors
-.c-text-dark-green {
+.c-text-dark-green,
+.c-dark-green-hover {
   color: $darkGreen;
 }
-
+.c-dark-green-hover:hover {
+  color: $btnDarkGreen;
+}
 .c-bg-dark-green,
 .btn-dark-green:hover {
   background-color: $darkGreen;
