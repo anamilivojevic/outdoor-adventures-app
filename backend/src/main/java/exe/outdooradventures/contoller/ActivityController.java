@@ -53,6 +53,7 @@ public class ActivityController {
         Activity actBeforeUpdate = RestUtilities.findByIdOrThrow(activityRepo, id);
         actBeforeUpdate.setName(act.getName());
         actBeforeUpdate.setDescription(act.getDescription());
+        actBeforeUpdate.setImgFileName(act.getImgFileName());
         return activityRepo.save(actBeforeUpdate);
     }
 
@@ -77,7 +78,7 @@ public class ActivityController {
 
     // activity's locations REST
 
-    @GetMapping("/{id}/activities")
+    @GetMapping("/{id}/locations")
     public Set<Location> getActivityLocations(@PathVariable int id) {
         return RestUtilities.findByIdOrThrow(activityRepo, id).getLocations();
     }
@@ -118,7 +119,7 @@ public class ActivityController {
         return RestUtilities.findByIdOrThrow(activityRepo, id).getTags();
     }
 
-    @PostMapping("/{actId}/tags/{locId}")
+    @PostMapping("/{actId}/tags/{tagId}")
     public Set<Tag> addTagToActivity(@PathVariable("actId") int actId,
                                           @PathVariable("tagId") int tagId) {
         Activity act = RestUtilities.findByIdOrThrow(activityRepo, actId);

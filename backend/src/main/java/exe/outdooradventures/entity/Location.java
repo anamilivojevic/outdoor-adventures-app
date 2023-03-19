@@ -1,6 +1,7 @@
 package exe.outdooradventures.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -39,4 +40,12 @@ public class Location implements IHasGetId {
     @JsonIgnore
     private Set<Activity> activities = new HashSet<>();
 
+    public Location(int id, String city, String address, BigDecimal latitude, BigDecimal longitude, Company company) {
+        this.id = id;
+        this.city = city;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.company = company;
+    }
 }
