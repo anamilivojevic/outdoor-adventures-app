@@ -7,6 +7,7 @@ import {
   AiFillPlusCircle,
   AiFillCloseCircle,
 } from "react-icons/ai";
+import { addTagToActivity, removeTagFromActivity } from "../../api";
 
 interface TagsProps {
   allTags: Tag[];
@@ -16,15 +17,13 @@ const AdminActivity = (
   props: ActivityProps & updateActClickProps & deleteActClickProps & TagsProps
 ): JSX.Element => {
   const { activity, onUpdate, onDelete, allTags } = props;
+  const [activityTags, setActivityTags] = useState<Tag[]>(activity.tags);
   const [editMode, setEditMode] = useState<boolean>(false);
   const [showTagsToAdd, setShowTagsToAdd] = useState<boolean>(false);
 
   const sameTagsIds: number[] = [];
-
-  // TODO: finish addTagToAct
-
   for (const tag of allTags) {
-    for (const t of activity.tags) {
+    for (const t of activityTags) {
       if (tag.id === t.id) sameTagsIds.push(t.id);
     }
   }
@@ -45,7 +44,15 @@ const AdminActivity = (
     }
   }
 
-  function handleAddTagClick() {}
+  function handleAddTagToActClick(tag: Tag) {
+    addTagToActivity(activity.id, tag.id);
+    setActivityTags([...activityTags, tag]);
+  }
+
+  function handleRemoveTagFromActClick(tagId: number) {
+    removeTagFromActivity(activity.id, tagId);
+    setActivityTags(activityTags.filter((t) => t.id !== tagId));
+  }
 
   if (!editMode) {
     return (
@@ -65,7 +72,7 @@ const AdminActivity = (
         <p>File name in resources/images/ : {activity.imgFileName}</p>
         <div className="tagList">
           Tags:
-          {activity.tags.map((tag) => {
+          {activityTags.map((tag) => {
             return (
               <button
                 key={tag.id}
@@ -73,7 +80,12 @@ const AdminActivity = (
                   backgroundColor: `${tag.color}`,
                 }}>
                 <span>{tag.name.toLowerCase()}</span>
-                <BsX className="ms-1" />
+                <BsX
+                  className="ms-1"
+                  onClick={() => {
+                    handleRemoveTagFromActClick(tag.id);
+                  }}
+                />
               </button>
             );
           })}
@@ -98,17 +110,23 @@ const AdminActivity = (
                     right: "7px",
                   }}
                 />
+                <span className="me-2">Add:</span>
                 {allTags
-                  .filter((t) => !sameTagsIds.includes(t.id))
-                  .map((el) => {
+                  .filter((tag) => !sameTagsIds.includes(tag.id))
+                  .map((tag) => {
                     return (
                       <button
-                        key={el.id}
+                        key={tag.id}
                         style={{
-                          backgroundColor: `${el.color}`,
+                          backgroundColor: `${tag.color}`,
                         }}>
-                        <span>{el.name.toLowerCase()}</span>
-                        <AiOutlinePlus className="ms-1" />
+                        <span>{tag.name.toLowerCase()}</span>
+                        <AiOutlinePlus
+                          className="ms-1"
+                          onClick={() => {
+                            handleAddTagToActClick(tag);
+                          }}
+                        />
                       </button>
                     );
                   })}

@@ -13,12 +13,10 @@ const ActivityEdit = (
 
   function handleOnChange(input: string, value: string) {
     setCurrentAct({ ...currentAct, [input]: value });
-    console.log(currentAct);
   }
 
   function handleActUpdateClick(event: React.SyntheticEvent) {
     event.preventDefault();
-    console.log(currentAct);
     onUpdate(activity.id, currentAct);
     toggle();
   }
@@ -58,16 +56,18 @@ const ActivityEdit = (
             }}
           />
         </Form.Group>
-        <button
-          className="btn btn-dark btn-dark-green btn-sm mt-2 c-green-hover me-2"
-          onClick={handleActUpdateClick}>
-          Save
-        </button>
-        <button
-          className="btn btn-dark btn-dark-green btn-sm mt-2 c-green-hover"
-          onClick={toggle}>
-          Cancel
-        </button>
+        <div className="d-flex justify-content-end">
+          <button
+            className="btn btn-dark btn-dark-green btn-sm mt-2 c-green-hover me-2"
+            onClick={handleActUpdateClick}>
+            Save
+          </button>
+          <button
+            className="btn btn-dark btn-dark-green btn-sm mt-2 c-green-hover"
+            onClick={toggle}>
+            Cancel
+          </button>
+        </div>
       </Form>
     </div>
   );
