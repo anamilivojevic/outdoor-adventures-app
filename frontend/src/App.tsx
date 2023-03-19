@@ -5,7 +5,6 @@ import HomePage from "./pages/HomePage";
 import SearchPage from "./pages/SearchPage";
 import MainLayout from "./components/MainLayout";
 import AdminLayout from "./components/adminComponents/AdminLayout";
-import Test from "./components/Test";
 import AdminHomePage from "./pages/adminPages/AdminHomePage";
 import AdminActPage from "./pages/adminPages/AdminActPage";
 import AdminTagPage from "./pages/adminPages/AdminTagPage";
@@ -39,9 +38,7 @@ function App() {
 
   async function updateActivity(actId: number, act: Activity) {
     console.log(act);
-    console.log("From App updating activity " + actId);
     const updatedActivity = await putActivity(actId, act);
-    console.log(updatedActivity);
     loadActivities();
   }
 

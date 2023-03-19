@@ -19,7 +19,9 @@ const FILTER_BTNS_MARGIN: string = "7px 10px";
 
 const SearchPage = ({ activities }: ActivitiesProps): JSX.Element => {
   const [tags, setTags] = useState<Tag[]>([] as Tag[]);
-  const [locations, setLocations] = useState<Location[]>([] as Location[]);
+  const [locations, setLocations] = useState<LocationWithCompanyInfo[]>(
+    [] as LocationWithCompanyInfo[]
+  );
   const [searchActIds, setSearchActIds] = useState<Set<number | void>>(
     new Set()
   );
@@ -28,19 +30,15 @@ const SearchPage = ({ activities }: ActivitiesProps): JSX.Element => {
   );
   const [inputString, setSearchString] = useState<string>("");
 
-  async function loadLocations() {
-    setLocations(await getLocations());
-  }
-
   async function loadTags() {
     setTags(await getTags());
   }
 
   async function search() {
-    let arrTags: number[] = [];
+    const arrTags: number[] = [];
     searchTagIds.forEach((x) => arrTags.push(x as number));
 
-    let arrActs: number[] = [];
+    const arrActs: number[] = [];
     searchActIds.forEach((x) => arrActs.push(x as number));
 
     return await getLocationsFromSearch(
@@ -50,49 +48,42 @@ const SearchPage = ({ activities }: ActivitiesProps): JSX.Element => {
     );
   }
 
-  function searchFromInput(event: React.SyntheticEvent) {
-    event.preventDefault();
+  function searchFromInput() {
     console.log("searching by input " + inputString);
 
     (async () => {
       const result = await search();
+      setLocations(result);
       console.log(result);
+      console.log(locations);
     })();
   }
 
   useEffect(() => {
     loadTags();
-    //loadLocations();
   }, []);
 
   return (
     <main className="my-4">
       <div className="container">
-        <h1>Search activities</h1>
-        <div>
+        <h1 className="mt-3 mb-4">Search activities</h1>
+        <div id="searchParameters" className="mb-5">
           <div className="row">
-            <Form className="col-12 col-md-6" onSubmit={searchFromInput}>
-              <InputGroup className="mb-3">
-                <Form.Control
-                  type="text"
-                  name="inputString"
-                  placeholder="Type..."
-                  autoFocus
-                  value={inputString}
-                  onChange={(e) => setSearchString(e.target.value)}
-                />
-                <button
-                  className="btn btn-dark-green c-green-hover"
-                  type="submit">
-                  <BiSearch />
-                </button>
-              </InputGroup>
+            <Form className="col-12 col-md-6 mb-3">
+              <Form.Control
+                type="text"
+                name="inputString"
+                placeholder="Type..."
+                autoFocus
+                value={inputString}
+                onChange={(e) => setSearchString(e.target.value)}
+              />
             </Form>
           </div>
-          <div className="filters mb-5">
-            <div className="mb-3">
+          <div className="filters mb-4">
+            <div className="mb-3" id="act-filter-btns">
               <p className="mb-1">Filter by activity:</p>
-              <div id="act-filter-btns">
+              <div>
                 {activities.map((act) => {
                   return (
                     <button
@@ -127,9 +118,10 @@ const SearchPage = ({ activities }: ActivitiesProps): JSX.Element => {
                 })}
               </div>
             </div>
-            <div>
+
+            <div id="tag-filter-btns">
               <p className="mb-1">Filter by tag:</p>
-              <div id="tag-filter-btns">
+              <div>
                 {tags.map((tag) => {
                   return (
                     <button
@@ -169,10 +161,17 @@ const SearchPage = ({ activities }: ActivitiesProps): JSX.Element => {
               </div>
             </div>
           </div>
+          <hr />
+          <div className="d-flex justify-content-end mt-4">
+            <button
+              className="btn btn-dark-green c-green-hover"
+              onClick={searchFromInput}>
+              Search <BiSearch className="ms-2" />
+            </button>
+          </div>
         </div>
         <div className="map-container">
-          {inputString && <h3>Results</h3>}
-          {/* <Map locations={[]} /> */}
+          <Map locations={locations} />
         </div>
       </div>
     </main>

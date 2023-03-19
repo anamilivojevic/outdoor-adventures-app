@@ -6,68 +6,65 @@ const TAGS_URL: string = BASE_URL + "tags";
 const COMPANIES_URL: string = BASE_URL + "companies";
 const USERS_URL: string = BASE_URL + "users";
 
+const headersContentType = { "Content-Type": "application/json" };
+
+type RequestOptions = {
+  method: string;
+  headers?: {
+    "Content-Type": string;
+  };
+  body?: string;
+};
+
+async function baseApiCall(completeUrl: string, options: RequestOptions) {
+  try {
+    const response = await fetch(completeUrl, options);
+    if (response.ok) {
+      if (options.method == "DELETE") {
+        return "Successful delete";
+      }
+      return await response.json();
+    }
+  } catch (error) {
+    return { ok: false, data: error };
+  }
+}
+
 async function getFromSearch(
   url: string,
   keyword?: string,
   tags?: number[],
   activities?: number[]
 ) {
-  try {
-    let separator: string = "?";
-    let path: string = "";
+  let separator: string = "/search?";
+  let path: string = "";
 
-    const addPiece = (name?: string, value?: string): void => {
-      path += separator + name + "=" + value;
-      separator = "&";
-    };
+  const addPiece = (name?: string, value?: string): void => {
+    path += separator + name + "=" + value;
+    separator = "&";
+  };
 
-    keyword && addPiece("keyword", keyword);
-    tags && addPiece("tags", tags?.join());
-    activities && addPiece("activities", activities?.join());
-
-    console.log(path);
-
-    const response = await fetch(url + path);
-    if (response.ok) {
-      console.log(await response.json());
-    }
-  } catch (error) {
-    console.log(error);
-  }
+  keyword && addPiece("keyword", keyword);
+  tags && addPiece("tags", tags?.join());
+  activities && addPiece("activities", activities?.join());
+  return baseApiCall(url + path, { method: "GET" });
 }
 
 // General API functions
 async function get(url: string, id?: number) {
-  try {
-    const path: string = id ? `/${id}` : "";
-    const response = await fetch(url + path);
-    if (response.ok) {
-      return await response.json();
-    }
-  } catch (error) {
-    console.log(error);
-  }
+  const path: string = id ? `/${id}` : "";
+  return baseApiCall(url + path, { method: "GET" });
 }
 
 export async function post(
   url: string,
   object: Activity | Tag | Location | Company | User
 ) {
-  try {
-    console.log(JSON.stringify(object));
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(object),
-    });
-    if (response.ok) {
-      return await response.json();
-    }
-  } catch (error) {
-    return { ok: false, data: error };
-  }
+  return baseApiCall(url, {
+    method: "POST",
+    headers: headersContentType,
+    body: JSON.stringify(object),
+  });
 }
 
 async function put(
@@ -75,35 +72,41 @@ async function put(
   id: number,
   object: Activity | Tag | Location | Company | User
 ) {
-  try {
-    const response = await fetch(`${url}/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(object),
-    });
-    if (response.ok) {
-      return await response.json();
-    }
-  } catch (error) {
-    return { ok: false, data: error };
-  }
+  return baseApiCall(`${url}/${id}`, {
+    method: "PUT",
+    headers: headersContentType,
+    body: JSON.stringify(object),
+  });
 }
 
 export async function deleteById(url: string, id: number) {
-  try {
-    const response = await fetch(`${url}/${id}`, {
-      method: "DELETE",
-    });
-    if (response.ok) {
-      return "Success";
-    } else {
-      return await response.json();
-    }
-  } catch (error) {
-    return { ok: false, data: error };
-  }
+  return baseApiCall(`${url}/${id}`, {
+    method: "DELETE",
+  });
+}
+
+// relational APIs
+export async function addOneToAnother(
+  url: string,
+  ownerId: number,
+  ownedName: string,
+  ownedId: number
+) {
+  return baseApiCall(`${url}/${ownerId}/${ownedName}/${ownedId}`, {
+    method: "POST",
+    headers: headersContentType,
+  });
+}
+
+export async function removeOneFromAnother(
+  url: string,
+  ownerId: number,
+  ownedName: string,
+  ownedId: number
+) {
+  return baseApiCall(`${url}/${ownerId}/${ownedName}/${ownedId}`, {
+    method: "DELETE",
+  });
 }
 
 // Activities API
@@ -120,10 +123,12 @@ export async function deleteActivity(id: number) {
   return deleteById(ACTIVITIES_URL, id);
 }
 
-// TODO: finish this
 // Activity's tags:
 export async function addTagToActivity(actId: number, tagId: number) {
-  //return post(ACTIVITIES_URL, actId, tagId);
+  return addOneToAnother(ACTIVITIES_URL, actId, "tags", tagId);
+}
+export async function removeTagFromActivity(actId: number, tagId: number) {
+  return removeOneFromAnother(ACTIVITIES_URL, actId, "tags", tagId);
 }
 
 // Tags API

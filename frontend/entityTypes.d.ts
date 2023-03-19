@@ -65,6 +65,10 @@ interface UsersProps {
   users: User[];
 }
 
+interface LocationWithCompanyInfoProps {
+  locations: LocationWithCompanyInfo[];
+}
+
 interface Activity extends Obj {
   name: string;
   description: string;
@@ -87,6 +91,16 @@ interface Location extends Obj {
   longitude: number;
   company: Company;
   activities: Activity[];
+}
+
+interface LocationWithCompanyInfo {
+  locationId: number;
+  fullAddress: string;
+  latitude: number;
+  longitude: number;
+  company: string;
+  websiteLink: string;
+  activities: String[];
 }
 
 interface Company extends Obj {
