@@ -3,13 +3,16 @@ package exe.outdooradventures.contoller;
 import exe.outdooradventures.contoller.utilities.RestUtilities;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import exe.outdooradventures.entity.Activity;
 import exe.outdooradventures.entity.User;
 import exe.outdooradventures.repository.ActivityRepository;
 import exe.outdooradventures.repository.UserRepository;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @CrossOrigin
@@ -28,20 +31,37 @@ public class UserController {
         return userRepo.findAll();
     }
 
+    @GetMapping("/login")
+    public User login(@RequestParam(name = "email", required = true) String email,
+                      @RequestParam(name = "password", required = true) String password) {
+
+        User result = userRepo.findByEmailAndPassword(email,password);
+        return result;
+    }
+
     @GetMapping("/{id}")
     public User getUserById(@PathVariable int id) {
         return RestUtilities.findByIdOrThrow(userRepo, id);
     }
 
-    @PostMapping()
-    public User addUser(@Valid @RequestBody User newUser) {
-        newUser.setId(0);
+    @PostMapping
+    public User registerUser(@RequestParam(name = "email", required = true) String email,
+                             @RequestParam(name = "password", required = true) String password) {
+
+        if(userRepo.findByEmail(email) != null) {
+            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED, "User with email already exists.");
+        }
+
+        User newUser = new User();
+        newUser.setEmail(email);
+        newUser.setPassword(password);
         return userRepo.save(newUser);
     }
 
     @PutMapping("/{id}")
     public User updateUserInfo(@PathVariable int id, @Valid @RequestBody User updatedUser) {
         User userBeforeUpdate = RestUtilities.findByIdOrThrow(userRepo, id);
+        updatedUser.setEmail(userBeforeUpdate.getEmail());
         updatedUser.setId(id);
         updatedUser.setFavActivities(userBeforeUpdate.getFavActivities());
         updatedUser.setAdmin(userBeforeUpdate.isAdmin());
@@ -53,7 +73,6 @@ public class UserController {
         User user = RestUtilities.findByIdOrThrow(userRepo, id);
         user.setPassword(updatedPassword);
         return userRepo.save(user);
-
     }
 
     @DeleteMapping("/{id}")
