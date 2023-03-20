@@ -10,6 +10,8 @@ import AdminActPage from "./pages/adminPages/AdminActPage";
 import AdminTagPage from "./pages/adminPages/AdminTagPage";
 import AdminLocPage from "./pages/adminPages/AdminLocPage";
 import AdminCompPage from "./pages/adminPages/AdminCompPage";
+import LoginPage from "./pages/LoginPage";
+import ProfilePage from "./pages/ProfilePage";
 
 import {
   getActivities,
@@ -20,10 +22,10 @@ import {
   getLocations,
   getUsers,
 } from "./api";
-import LoginPage from "./pages/LoginPage";
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([] as Activity[]);
+  const [userLogged, setUserLogged] = useState<number>(-1);
 
   async function loadActivities() {
     setActivities(await getActivities());
@@ -48,6 +50,10 @@ function App() {
     loadActivities();
   }
 
+  function login(userId: number) {
+    setUserLogged(userId);
+  }
+
   useEffect(() => {
     loadActivities();
   }, []);
@@ -55,17 +61,23 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route path="" element={<HomePage activities={activities} />} />
+        <Route path="/" element={<MainLayout userLogged={userLogged} />}>
+          <Route
+            path=""
+            element={
+              <HomePage activities={activities} userLogged={userLogged} />
+            }
+          />
           <Route
             path="search"
             element={<SearchPage activities={activities} />}
           />
 
-          <Route path="login" element={<LoginPage />} />
-          <Route path="profile" />
-          <Route path="edit-user/:userId" />
-          <Route path=":userId/tasks" />
+          <Route path="login" element={<LoginPage onLogin={login} />} />
+          <Route
+            path="profile"
+            element={<ProfilePage userLogged={userLogged} />}
+          />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="" element={<AdminHomePage />} />

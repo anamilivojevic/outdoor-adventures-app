@@ -4,7 +4,12 @@ import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { FiLogIn } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
-const HomePage = ({ activities }: ActivitiesProps): JSX.Element => {
+type customProps = {
+  activities: Activity[];
+  userLogged: number;
+};
+
+const HomePage = ({ activities, userLogged }: customProps): JSX.Element => {
   return (
     <>
       <header>
@@ -42,13 +47,13 @@ const HomePage = ({ activities }: ActivitiesProps): JSX.Element => {
             <h4 className="text-uppercase text-center mb-3">
               Popular activities
             </h4>
-            <div className="d-flex justify-content-center">
+            <div className="container">
               <ActivitySwiper activities={activities} />
             </div>
           </section>
           <section id="explore-suggestions" className="c-large-mb">
             <div className="text-center ">
-              <Link to="/search" className="fs-4">
+              <Link to="/search" className="fs-5">
                 Search activities on a map
                 <MdKeyboardDoubleArrowRight className="ms-2" />
               </Link>
@@ -56,10 +61,16 @@ const HomePage = ({ activities }: ActivitiesProps): JSX.Element => {
           </section>
           <section id="home-login" className="c-large-mb">
             <div className="text-center ">
-              <Link to="/login" className="fs-4">
-                Log in or create an account
-                <FiLogIn className="ms-2" />
-              </Link>
+              {userLogged > 0 ? (
+                <Link to="/profile" className="fs-5">
+                  See your profile
+                  <FiLogIn className="ms-2" />
+                </Link>
+              ) : (
+                <Link to="/login" className="fs-5">
+                  Log in or create an account
+                </Link>
+              )}
             </div>
           </section>
         </div>

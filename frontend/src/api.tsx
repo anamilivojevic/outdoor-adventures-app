@@ -183,11 +183,41 @@ export async function deleteCompany(id: number) {
 }
 
 // Users API
+
+export async function userLogin(email: string, password: string) {
+  try {
+    const response = await fetch(
+      `${USERS_URL}/login?email=${email}&password=${password}`
+    );
+    if (response.ok) {
+      const respJson = await response.json();
+      console.log(respJson);
+      return respJson;
+    }
+  } catch (error) {
+    return { ok: false, data: error };
+  }
+}
+
+export async function userRegister(email: string, password: string) {
+  try {
+    const response = await fetch(
+      `${USERS_URL}?email=${email}&password=${password}`,
+      {
+        method: "POST",
+        headers: headersContentType,
+      }
+    );
+    if (response.ok) {
+      return await response.json();
+    }
+  } catch (error) {
+    return { ok: false, data: error };
+  }
+}
+
 export async function getUsers(id?: number) {
   return get(USERS_URL, id);
-}
-export async function postUser(user: User) {
-  return post(USERS_URL, user);
 }
 export async function putUser(id: number, user: User) {
   return put(USERS_URL, id, user);

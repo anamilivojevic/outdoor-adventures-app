@@ -22,6 +22,14 @@ type deleteTagClickProps = {
   onDelete: (arg: number) => void;
 };
 
+type LoginProps = {
+  onLogin: (userId: number) => void;
+};
+
+type userLoggedProps = {
+  userLogged: number;
+};
+
 interface Obj {
   id: number;
 }

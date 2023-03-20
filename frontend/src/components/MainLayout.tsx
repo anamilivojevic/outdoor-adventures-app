@@ -1,6 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 
-const MainLayout = (): JSX.Element => {
+const MainLayout = ({ userLogged }: userLoggedProps): JSX.Element => {
   return (
     <>
       <nav className="navbar navbar-expand-sm sticky-top c-bg-dark-green">
@@ -36,15 +36,21 @@ const MainLayout = (): JSX.Element => {
                   Search activities
                 </Link>
               </li>
-              <li className="nav-item d-flex justify-content-end me-2">
+              {/* <li className="nav-item d-flex justify-content-end me-2">
                 <Link className="nav-link c-green-hover" to="/about">
                   About
                 </Link>
-              </li>
+              </li> */}
               <li className="nav-item d-flex justify-content-end">
-                <Link className="nav-link c-green-hover" to="/login">
-                  Login
-                </Link>
+                {userLogged > 0 ? (
+                  <Link className="nav-link c-green-hover" to="/profile">
+                    Profile
+                  </Link>
+                ) : (
+                  <Link className="nav-link c-green-hover" to="/login">
+                    Login
+                  </Link>
+                )}
               </li>
             </ul>
           </div>
